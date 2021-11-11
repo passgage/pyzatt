@@ -11,6 +11,15 @@ Author: Alexander Marin <alexuzmarin@gmail.com>
 
 
 class DataRecordMixin:
+    
+    def read_att_bytes(self):
+        """
+        Attendance datasini bytearray olarak okur
+        """
+        self.send_command(cmd=DEFS.CMD_DATA_WRRQ,
+                          data=bytearray.fromhex('010d000000000000000000'))
+        self.recv_long_reply()
+        return self.last_payload_data
 
     def read_att_log(self):
         """
@@ -19,6 +28,7 @@ class DataRecordMixin:
         :return: None. Stores the attendance log entries
             in the att_log attribute.
         """
+        
         self.send_command(cmd=DEFS.CMD_DATA_WRRQ,
                           data=bytearray.fromhex('010d000000000000000000'))
         self.recv_long_reply()
